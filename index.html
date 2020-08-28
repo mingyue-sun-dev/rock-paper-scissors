@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>rock paper scissors</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function computerPlay() {
+			const choices = ['rock', 'paper', 'scissors']; 
+			return choices[Math.floor(Math.random() * 3)];
+		}
+
+		function  playRound(playerSelection, computerSelection) {
+			let winner = 'player';
+			playerSelection = playerSelection.toLowerCase();
+			computerSelection = computerSelection.toLowerCase();
+
+			if (playerSelection === computerSelection) {
+				return 'It\'s a tie';
+
+			} else if (playerSelection === 'rock' && computerSelection === 'paper' || playerSelection === 'paper' && computerSelection === 'scissors' || playerSelection === 'scissors' && computerSelection === 'rock') {
+				winner = 'computer';
+			}
+
+			if (winner === 'player') {
+				return `You Win! ${playerSelection} beats ${computerSelection}`;
+			} else {
+				return `You Lose! ${computerSelection} beats ${playerSelection}`;
+			}
+		}
+
+		function game() {
+			let playerSelection;
+			let computerSelection;
+			let oneRoundResult;
+			let playerScore = 0;
+			let computerScore = 0;
+
+			for (let i = 0; i < 5; i++) {
+				playerSelection = prompt('Choose from "rock, paper, scissor"');
+				computerSelection = computerPlay();
+				oneRoundResult = playRound(playerSelection, computerSelection);
+
+				console.log(oneRoundResult);
+
+				if (oneRoundResult.slice(4, 5) === 'W') {
+					playerScore++;
+				} else if (oneRoundResult.slice(4, 5) === 'L') {
+					computerScore++;
+				}
+			}
+
+			if (playerScore > computerScore) {
+				return 'Game over, you win!';
+			} else if (playerScore < computerScore) {
+				return 'Game over, you lose!';
+			} else {
+				return 'Game over, it\'s a tie.'
+			}
+		}
+	</script>
+</body>
+</html>
