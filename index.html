@@ -4,7 +4,18 @@
 	<title>rock paper scissors</title>
 </head>
 <body>
+	<div>You <span id='playerScore'>0</span> : <span id='computerScore'>0</span> Computer</div>
+	<button>Rock</button>
+	<button>Paper</button>
+	<button>Scissors</button>
+	<div id='result'></div>
+	<div id='finalResult'></div>
+
 	<script type="text/javascript">
+		const buttons = document.querySelectorAll('button');
+
+		buttons.forEach(button => button.addEventListener('click', game)); 
+
 		function computerPlay() {
 			const choices = ['rock', 'paper', 'scissors']; 
 			return choices[Math.floor(Math.random() * 3)];
@@ -18,9 +29,14 @@
 			if (playerSelection === computerSelection) {
 				return 'It\'s a tie';
 
-			} else if (playerSelection === 'rock' && computerSelection === 'paper' || playerSelection === 'paper' && computerSelection === 'scissors' || playerSelection === 'scissors' && computerSelection === 'rock') {
+			} else if (playerSelection === 'rock' && computerSelection === 'paper'
+				 || playerSelection === 'paper' && computerSelection === 'scissors'
+				 || playerSelection === 'scissors' && computerSelection === 'rock') {
 				winner = 'computer';
 			}
+
+			playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1);
+			computerSelection = computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1);
 
 			if (winner === 'player') {
 				return `You Win! ${playerSelection} beats ${computerSelection}`;
@@ -29,7 +45,7 @@
 			}
 		}
 
-		function game() {
+		function gameConsole() {
 			let playerSelection;
 			let computerSelection;
 			let oneRoundResult;
@@ -56,6 +72,29 @@
 				return 'Game over, you lose!';
 			} else {
 				return 'Game over, it\'s a tie.'
+			}
+		}
+
+		function game() {
+			const div = document.querySelector('#result');
+			const playerScore = document.querySelector('#playerScore');
+			const computerScore = document.querySelector('#computerScore');
+			const finalResult = document.querySelector('#finalResult');
+
+			if (Math.max(playerScore.textContent, computerScore.textContent) === 5) return;
+
+			div.textContent = playRound(this.textContent, computerPlay());
+
+			if (div.textContent.charAt(4) === 'W') {
+				playerScore.textContent++;
+			} else if (div.textContent.charAt(4) === 'L') {
+				computerScore.textContent++;
+			}
+
+			if (playerScore.textContent === '5') {
+				finalResult.textContent = 'Game over, you win!';
+			} else if (computerScore.textContent === '5') {
+				finalResult.textContent = 'Game over, you lose!';
 			}
 		}
 	</script>
